@@ -58,4 +58,3 @@ st.button("Send", on_click=send_message)
 
 # Dummy element to force rerun without showing error
 st.write(f"Run count: {st.session_state.get('run_count', 0)}")
-

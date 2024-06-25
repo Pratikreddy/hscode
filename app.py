@@ -5,7 +5,7 @@ import json
 # Set up the page
 st.set_page_config(page_title="HS Code Lookup System", layout="wide")
 
-# Initialize the Groq client
+# Initialize the Groq client using the API key from Streamlit secrets
 groq_api_key = st.secrets["GROQ_API_KEY"]
 groq_client = Groq(api_key=groq_api_key)
 
@@ -36,7 +36,7 @@ def send_message():
         # Append user input to chat history
         st.session_state.chat_history.append({"role": "user", "content": user_input})
 
-        # Call Groq API or process internally here
+        # Call Groq API with the chat history
         response = groq_client.chat.completions.create(
             model="llama3-70b-8192",
             messages=st.session_state.chat_history,

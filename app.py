@@ -160,21 +160,39 @@ if "chat_history" not in st.session_state:
     st.session_state.chat_history = [{"role": "system", "content": system_message}]
 if "input_buffer" not in st.session_state:
     st.session_state.input_buffer = ""
-if "selected_product" not in st.session_state:
-    st.session_state.selected_product = ""
 
 # Product list with names and HS Codes
 products = [
-    {"hs_code": "84137099", "name": "CENTRIFUGAL FIRE PUMP HORIZONTAL SPLIT CASE"},
-    {"hs_code": "40101900", "name": "CONVEYOR BELT, FABRIC BELT; 2400 MM X EP 200 X 4 PLY X 10 MM X 4 MM; GRADE M"},
-    {"hs_code": "73181510", "name": "M12 x 120mm Lg Hex Hd HT Bolt BZP"},
-    {"hs_code": "73181590", "name": "Bolt (M27X260X30)"},
-    {"hs_code": "73182100", "name": "MAKE: SEW - RETAINING RING DIN472 100X3-FS"},
-    {"hs_code": "73182100", "name": "CRUSHER SP; OIL RETAINING RING; DW NO:27-02 0861/B; PN:07; TYPE: ESC-584; EQU: COAL CRUSHER SCOOP COUPLING; OEM: ELECON"},
-    {"hs_code": "73194020", "name": "CLAMP, C: 4IN FORGED ULTRA STRONG DROP STEEL CLAMP BAR TYPE; DAWN; JAW OPENING 100MM; THROAT DEPTH 60MM"},
-    {"hs_code": "40101200", "name": "CONVEYOR BELT TYPE: 2200 EP 630/4 6+3 Y ME BELT CONVEYOR BELT CONVEYOR EP630/4 2200MM, 6+3MM COVER, DIN Y GRADE; 151MT/ROLL"},
-    {"hs_code": "73079910", "name": "LUBRICATION FITTING ASSORTMENT: AUTOMOTIVE HYDRAULIC GREASE NIPPLE; 12 SIZES: SAE, ANF, BSP, METRIC, BSF"},
-    {"hs_code": "40101200", "name": "STUD, RECESSED: THREADED BOTH END; 900MM LENGTH; C/W 4 EACH M42 NUTS; USED ON ELECTROMAGNETIC VIBRATORY MODEL FV890 EQ 2482"},
+    {"hs_code": "84137099", "name": "CENTRIFUGAL FIRE PUMP HORIZONTAL SPLIT CASE", 
+     "definisi": "Pompa pemadam kebakaran yang menggunakan prinsip sentrifugal untuk memompa air, dan memiliki desain casing yang dapat dibuka secara horizontal", 
+     "bahan": "Besi Baja / Logam"},
+    {"hs_code": "40101900", "name": "CONVEYOR BELT, FABRIC BELT; 2400 MM X EP 200 X 4 PLY X 10 MM X 4 MM; GRADE M", 
+     "definisi": "sabuk konveyor kain dengan spesifikasi sebagai berikut: Lebar: 2400 milimeter (2,4 meter), Ketebalan: 10 milimeter, Ketebalan lapisan kain: 4 milimeter, Jumlah lapisan kain: 4, Kekuatan tarik: EP 200, Kelas: M", 
+     "bahan": "Serat Polyester (EP)"},
+    {"hs_code": "73181510", "name": "M12 x 120mm Lg Hex Hd HT Bolt BZP", 
+     "definisi": "Baut kepala heksagonal besar dengan kekuatan tarik tinggi dan lapisan seng cerah, yang biasa digunakan dalam berbagai aplikasi industri dan konstruksi M12: Ini mengacu pada diameter ulir metrik baut, yang dalam hal ini adalah 12 milimeter, 120mm: Ini menunjukkan panjang baut, yaitu 120 milimeter, Lg Hex Hd: Ini adalah singkatan dari 'Large Hex Head,' yang berarti baut memiliki kepala heksagonal besar untuk dikencangkan dengan kunci pas", 
+     "bahan": "Bright Zinc Plated"},
+    {"hs_code": "73181590", "name": "Bolt (M27X260X30)", 
+     "definisi": "baut heksagonal berkekuatan tinggi dengan diameter ulir metrik 27 milimeter, panjang 260 milimeter, dan tinggi kepala 30 milimeter. Baut ini umumnya digunakan dalam aplikasi industri di mana kekuatan dan keandalan tinggi", 
+     "bahan": "Bright Zinc Plated"},
+    {"hs_code": "73182100", "name": "MAKE: SEW - RETAINING RING DIN472 100X3-FS", 
+     "definisi": "Cincin penahan adalah komponen mekanis yang digunakan untuk menahan komponen lain di tempatnya. Cincin penahan ini memiliki diameter luar 100 mm dan ketebalan 3 mm", 
+     "bahan": "Stainless Steel"},
+    {"hs_code": "73182100", "name": "CRUSHER SP; OIL RETAINING RING; DW NO:27-02 0861/B; PN:07; TYPE: ESC-584; EQU: COAL CRUSHER SCOOP COUPLING; OEM: ELECON", 
+     "definisi": "Cincin penahan oli yang digunakan pada sekop penyapu crusher batu bara. Cincin penahan ini berfungsi untuk menahan oli agar tidak bocor dari sekop penyapu. Cincin penahan ini memiliki diameter luar 100 mm dan ketebalan 3 mm", 
+     "bahan": "Stainless Steel"},
+    {"hs_code": "73194020", "name": "CLAMP, C: 4IN FORGED ULTRA STRONG DROP STEEL CLAMP BAR TYPE; DAWN; JAW OPENING 100MM; THROAT DEPTH 60MM", 
+     "definisi": "Klem batang baja cor tipe C yang kuat. Klem ini memiliki panjang 4 inci dan memiliki rahang yang dapat dibuka hingga 100 mm. Klem ini terbuat dari baja cor dan memiliki lapisan krom untuk melindunginya dari karat.", 
+     "bahan": "Stainless Steel"},
+    {"hs_code": "40101200", "name": "CONVEYOR BELT TYPE: 2200 EP 630/4 6+3 Y ME BELT CONVEYOR BELT CONVEYOR EP630/4 2200MM, 6+3MM COVER, DIN Y GRADE; 151MT/ROLL", 
+     "definisi": "Sabuk konveyor tipe EP630/4 dengan lebar 2200 mm, ketebalan cover 6+3 mm, dan grade DIN Y. Sabuk konveyor ini terbuat dari bahan polyester dan memiliki lapisan karet. Sabuk konveyor ini dapat menahan beban hingga 630 kg/m.", 
+     "bahan": "Polyester"},
+    {"hs_code": "73079910", "name": "LUBRICATION FITTING ASSORTMENT: AUTOMOTIVE HYDRAULIC GREASE NIPPLE; 12 SIZES: SAE, ANF, BSP, METRIC, BSF", 
+     "definisi": "Set alat yang digunakan untuk melumasi komponen-komponen otomotif. Set alat ini terdiri dari 12 ukuran nipple pelumas yang berbeda, termasuk ukuran SAE, ANF, BSP, metrik, dan BSF.", 
+     "bahan": "-"},
+    {"hs_code": "40101200", "name": "STUD, RECESSED: THREADED BOTH END; 900MM LENGTH; C/W 4 EACH M42 NUTS; USED ON ELECTROMAGNETIC VIBRATORY MODEL FV890 EQ 2482", 
+     "definisi": "Sebuah baut panjang berulir khusus yang digunakan pada alat getar elektromagnetik model FV890 dengan kode komponen EQ 2482.", 
+     "bahan": "Polyester"},
     {"hs_code": "84749000", "name": "A061-97 SAFETY DOOR MATEST"},
     {"hs_code": "84749000", "name": "CRUSHER SP; SHAFT SLEEVE; DW NO: 27-02-0861/B; PN: 16; TYPE: ESC-584; EQU: COAL CRUSHER SCOOP COUPLING; OEM: ELECON"},
     {"hs_code": "84749000", "name": "DAMPER: VIBRATION DAMPENER M140 MATERIAL DURO 40DR CRUSHER 23050 WD2"},
@@ -221,21 +239,16 @@ user_input = st.text_input("Type your message here:", key="input_buffer")
 if st.button("Send"):
     send_message()
 
-# Function to handle product selection
-def select_product():
-    selected_product = st.session_state.selected_product
-    if selected_product:
-        hs_code, product_name = selected_product.split(' - ', 1)
-        product_details = next((p for p in products if p["hs_code"] == hs_code), None)
-        if product_details:
-            product_info = f"{product_name}\n* Definisi: {product_details.get('definisi', 'No definition available')}\n* Bahan: {product_details.get('bahan', 'No material info available')}\n* HS Code: {product_details['hs_code']}"
-            st.session_state.chat_history.append({"role": "user", "content": f"Tell me about the product with HS Code {hs_code}: {product_name}\n{product_info}"})
-            send_message()
+# Display product details
+st.write("## Product Catalog")
+st.write("### Select a product from below and refer to it in the chat:")
 
-# Dropdown for product selection
-st.write("## Chat about a product")
-product_options = [f'{p["hs_code"]} - {p["name"]}' for p in products]
-selected_product = st.selectbox("Select a product to chat about:", product_options, key="selected_product")
-
-if st.button("Discuss Selected Product"):
-    select_product()
+for product in products:
+    st.markdown(f"""
+    <div style='border: 2px solid gray; padding: 10px; margin: 10px 0; border-radius: 8px;'>
+        <strong>HS Code:</strong> {product['hs_code']}<br>
+        <strong>Name:</strong> {product['name']}<br>
+        <strong>Definisi:</strong> {product.get('definisi', 'No definition available')}<br>
+        <strong>Bahan:</strong> {product.get('bahan', 'No material info available')}
+    </div>
+    """, unsafe_allow_html=True)

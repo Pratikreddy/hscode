@@ -165,22 +165,22 @@ if "selected_product" not in st.session_state:
 
 # Product list with names and HS Codes
 products = [
-    {"name": "CENTRIFUGAL FIRE PUMP HORIZONTAL SPLIT CASE", "hs_code": "84137099"},
-    {"name": "CONVEYOR BELT, FABRIC BELT; 2400 MM X EP 200 X 4 PLY X 10 MM X 4 MM; GRADE M", "hs_code": "40101900"},
-    {"name": "M12 x 120mm Lg Hex Hd HT Bolt BZP", "hs_code": "73181510"},
-    {"name": "Bolt (M27X260X30)", "hs_code": "73181590"},
-    {"name": "MAKE: SEW - RETAINING RING DIN472 100X3-FS", "hs_code": "73182100"},
-    {"name": "CRUSHER SP; OIL RETAINING RING; DW NO:27-02 0861/B; PN:07; TYPE: ESC-584; EQU: COAL CRUSHER SCOOP COUPLING; OEM: ELECON", "hs_code": "73182100"},
-    {"name": "CLAMP, C: 4IN FORGED ULTRA STRONG DROP STEEL CLAMP BAR TYPE; DAWN; JAW OPENING 100MM; THROAT DEPTH 60MM", "hs_code": "73194020"},
-    {"name": "CONVEYOR BELT TYPE: 2200 EP 630/4 6+3 Y ME BELT CONVEYOR BELT CONVEYOR EP630/4 2200MM, 6+3MM COVER, DIN Y GRADE; 151MT/ROLL", "hs_code": "40101200"},
-    {"name": "LUBRICATION FITTING ASSORTMENT: AUTOMOTIVE HYDRAULIC GREASE NIPPLE; 12 SIZES: SAE, ANF, BSP, METRIC, BSF", "hs_code": "73079910"},
-    {"name": "STUD, RECESSED: THREADED BOTH END; 900MM LENGTH; C/W 4 EACH M42 NUTS; USED ON ELECTROMAGNETIC VIBRATORY MODEL FV890 EQ 2482", "hs_code": "40101200"},
-    {"name": "A061-97 SAFETY DOOR MATEST", "hs_code": "84749000"},
-    {"name": "CRUSHER SP; SHAFT SLEEVE; DW NO: 27-02-0861/B; PN: 16; TYPE: ESC-584; EQU: COAL CRUSHER SCOOP COUPLING; OEM: ELECON", "hs_code": "84749000"},
-    {"name": "DAMPER: VIBRATION DAMPENER M140 MATERIAL DURO 40DR CRUSHER 23050 WD2", "hs_code": "84749000"},
-    {"name": "HAMMER: HAMMER ROTOR FOR HAMMER MILL CRUSHER SAMPLER", "hs_code": "84749000"},
-    {"name": "HTD SPROCKET P80-14M-170J", "hs_code": "84749000"},
-    {"name": "LABYRINTH SEAL RING: SEALING; 112MM ID X 128 MM OD; LABYRINTH; BEARING ASSEMBLY", "hs_code": "84749000"}
+    {"hs_code": "84137099", "name": "CENTRIFUGAL FIRE PUMP HORIZONTAL SPLIT CASE"},
+    {"hs_code": "40101900", "name": "CONVEYOR BELT, FABRIC BELT; 2400 MM X EP 200 X 4 PLY X 10 MM X 4 MM; GRADE M"},
+    {"hs_code": "73181510", "name": "M12 x 120mm Lg Hex Hd HT Bolt BZP"},
+    {"hs_code": "73181590", "name": "Bolt (M27X260X30)"},
+    {"hs_code": "73182100", "name": "MAKE: SEW - RETAINING RING DIN472 100X3-FS"},
+    {"hs_code": "73182100", "name": "CRUSHER SP; OIL RETAINING RING; DW NO:27-02 0861/B; PN:07; TYPE: ESC-584; EQU: COAL CRUSHER SCOOP COUPLING; OEM: ELECON"},
+    {"hs_code": "73194020", "name": "CLAMP, C: 4IN FORGED ULTRA STRONG DROP STEEL CLAMP BAR TYPE; DAWN; JAW OPENING 100MM; THROAT DEPTH 60MM"},
+    {"hs_code": "40101200", "name": "CONVEYOR BELT TYPE: 2200 EP 630/4 6+3 Y ME BELT CONVEYOR BELT CONVEYOR EP630/4 2200MM, 6+3MM COVER, DIN Y GRADE; 151MT/ROLL"},
+    {"hs_code": "73079910", "name": "LUBRICATION FITTING ASSORTMENT: AUTOMOTIVE HYDRAULIC GREASE NIPPLE; 12 SIZES: SAE, ANF, BSP, METRIC, BSF"},
+    {"hs_code": "40101200", "name": "STUD, RECESSED: THREADED BOTH END; 900MM LENGTH; C/W 4 EACH M42 NUTS; USED ON ELECTROMAGNETIC VIBRATORY MODEL FV890 EQ 2482"},
+    {"hs_code": "84749000", "name": "A061-97 SAFETY DOOR MATEST"},
+    {"hs_code": "84749000", "name": "CRUSHER SP; SHAFT SLEEVE; DW NO: 27-02-0861/B; PN: 16; TYPE: ESC-584; EQU: COAL CRUSHER SCOOP COUPLING; OEM: ELECON"},
+    {"hs_code": "84749000", "name": "DAMPER: VIBRATION DAMPENER M140 MATERIAL DURO 40DR CRUSHER 23050 WD2"},
+    {"hs_code": "84749000", "name": "HAMMER: HAMMER ROTOR FOR HAMMER MILL CRUSHER SAMPLER"},
+    {"hs_code": "84749000", "name": "HTD SPROCKET P80-14M-170J"},
+    {"hs_code": "84749000", "name": "LABYRINTH SEAL RING: SEALING; 112MM ID X 128 MM OD; LABYRINTH; BEARING ASSEMBLY"}
 ]
 
 # Title and description
@@ -225,14 +225,17 @@ if st.button("Send"):
 def select_product():
     selected_product = st.session_state.selected_product
     if selected_product:
-        product_name = next((p["name"] for p in products if f'{p["hs_code"]} - {p["name"]}' == selected_product), "")
-        st.session_state.chat_history.append({"role": "user", "content": f"Tell me about the product with HS Code {selected_product.split(' - ')[0]}: {product_name}"})
-        send_message()
+        hs_code, product_name = selected_product.split(' - ', 1)
+        product_details = next((p for p in products if p["hs_code"] == hs_code), None)
+        if product_details:
+            product_info = f"{product_name}\n* Definisi: {product_details.get('definisi', 'No definition available')}\n* Bahan: {product_details.get('bahan', 'No material info available')}\n* HS Code: {product_details['hs_code']}"
+            st.session_state.chat_history.append({"role": "user", "content": f"Tell me about the product with HS Code {hs_code}: {product_name}\n{product_info}"})
+            send_message()
 
 # Dropdown for product selection
 st.write("## Chat about a product")
 product_options = [f'{p["hs_code"]} - {p["name"]}' for p in products]
-selected_product = st.selectbox("Select a product to chat about:", ["Select a product"] + product_options, key="selected_product")
+selected_product = st.selectbox("Select a product to chat about:", product_options, key="selected_product")
 
 if st.button("Discuss Selected Product"):
     select_product()

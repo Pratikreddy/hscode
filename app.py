@@ -165,7 +165,7 @@ if "input_buffer" not in st.session_state:
     st.session_state.input_buffer = ""
 
 # Placeholder for the product list
-products = []
+#products = []
 
 
 
@@ -207,8 +207,8 @@ user_input = st.text_input("Type your message here:", key="input_buffer")
 st.button("Send", on_click=send_message)
 
 # Display product details
-st.write("## Product Catalog")
-st.write("### Select a product from below and refer to it in the chat:")
+#st.write("## Product Catalog")
+#st.write("### Select a product from below and refer to it in the chat:")
 
 for product in products:
     st.markdown(f"""

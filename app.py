@@ -210,12 +210,12 @@ st.button("Send", on_click=send_message)
 #st.write("## Product Catalog")
 #st.write("### Select a product from below and refer to it in the chat:")
 
-for product in products:
-    st.markdown(f"""
-    <div style='border: 2px solid gray; padding: 10px; margin: 10px 0; border-radius: 8px;'>
-        <strong>HS Code:</strong> {product['hs_code']}<br>
-        <strong>Name:</strong> {product['name']}<br>
-        <strong>Definisi:</strong> {product.get('definisi', 'No definition available')}<br>
-        <strong>Bahan:</strong> {product.get('bahan', 'No material info available')}
-    </div>
-    """, unsafe_allow_html=True)
+#for product in products:
+   # st.markdown(f"""
+    #<div style='border: 2px solid gray; padding: 10px; margin: 10px 0; border-radius: 8px;'>
+       # <strong>HS Code:</strong> {product['hs_code']}<br>
+       # <strong>Name:</strong> {product['name']}<br>
+       # <strong>Definisi:</strong> {product.get('definisi', 'No definition available')}<br>
+       # <strong>Bahan:</strong> {product.get('bahan', 'No material info available')}
+   #</div>
+  #  """, unsafe_allow_html=True)

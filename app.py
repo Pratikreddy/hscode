@@ -58,11 +58,11 @@ def send_message():
 
         # Clear the input buffer
         st.session_state.input_buffer = ""
+        st.experimental_rerun()  # Trigger rerun to clear input
 
 # Input for chat messages
 user_input = st.text_input("Type your message here:", key="input_buffer")
-if st.button("Send"):
-    send_message()
+st.button("Send", on_click=send_message)
 
 # Display product details
 st.write("## Product Catalog")
